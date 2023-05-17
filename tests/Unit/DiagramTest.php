@@ -31,7 +31,7 @@ class DiagramTest extends TestCase
         );
         $kendaraan = $motor->kendaraan()->create(
             [
-                "tahun_keluaran" => "tahun keluar",
+                "tahun_keluaran" => "tahun-keluar",
                 "warna" => "warna hitam",
                 "harga" => "Rp 100000"
             ]
@@ -51,7 +51,7 @@ class DiagramTest extends TestCase
         );
         $kendaraan = $mobil->kendaraan()->create(
             [
-                "tahun_keluaran" => "tahun keluar",
+                "tahun_keluaran" => "tahun-keluar",
                 "warna" => "warna putih",
                 "harga" => "Rp 444444"
             ]

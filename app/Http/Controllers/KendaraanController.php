@@ -4,28 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Kendaraan;
+use App\Models\Mobil;
 
 class KendaraanController extends Controller
 {
-    //
-    public function show($slug)
+    public function index()
     {
-        return view('kendaraan', [
-            'kendaraan' => Kendaraan::where('slug', '=', $slug)->first()
-        ]);
+        $kendaraan = Kendaraan::all();
+        return response()->json(["status" => "ok", "data" => $kendaraan], 201);
     }
 
-    public function store(Request $request)
+    public function show($slug)
     {
-        $kendaraan = new Kendaraan();
 
-        $kendaraan->title = $request->title;
-        $kendaraan->body = $request->body;
-        $kendaraan->slug = $request->slug;
-
-        $kendaraan->save();
-
-        return response()->json(["result" => "ok"], 201);
     }
 
     public function destroy($kendaraanId)
@@ -38,10 +29,16 @@ class KendaraanController extends Controller
 
     public function update(Request $request, $kendaraanId)
     {
+        $validated = $request->validate([
+            'tahun_keluaran' => 'required',
+            'warna' => 'required',
+            'harga' => 'required',
+        ]);
+
         $kendaraan = Kendaraan::find($kendaraanId);
-        $kendaraan->title = $request->title;
-        $kendaraan->body = $request->body;
-        $kendaraan->slug = $request->slug;
+        $kendaraan->tahun_keluaran = $request->tahun_keluaran;
+        $kendaraan->warna = $request->warna;
+        $kendaraan->harga = $request->harga;
         $kendaraan->save();
 
         return response()->json(["result" => "ok"], 201);

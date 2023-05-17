@@ -5,32 +5,50 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Mobil;
 
-class MobilController extends Controller
+class mobilController extends Controller
 {
-    //
+    public function index()
+    {
+        $mobil = mobil::all();
+        return response()->json(["status" => "ok", "data" => $mobil], 201);
+    }
+
     public function show($slug)
     {
-        return view('mobil', [
-            'mobil' => Mobil::where('slug', '=', $slug)->first()
-        ]);
     }
 
     public function store(Request $request)
     {
-        $mobil = new Mobil();
+        $validated = $request->validate([
+            'mesin' => 'required',
+            'kapasitas_penumpang' => 'required',
+            'tipe' => 'required',
+            'tahun_keluaran' => 'required',
+            'warna' => 'required',
+            'harga' => 'required',
+        ]);
 
-        $mobil->title = $request->title;
-        $mobil->body = $request->body;
-        $mobil->slug = $request->slug;
-
-        $mobil->save();
+        $mobil = mobil::create(
+            [
+                "mesin" => $request->mesin,
+                "kapasitas_penumpang" => $request->kapasitas_penumpang,
+                "tipe" => $request->tipe
+            ]
+        );
+        $kendaraan = $mobil->kendaraan()->create(
+            [
+                "tahun_keluaran" => $request->tahun_keluaran,
+                "warna" => $request->warna,
+                "harga" => $request->harga
+            ]
+        );
 
         return response()->json(["result" => "ok"], 201);
     }
 
     public function destroy($mobilId)
     {
-        $mobil = Mobil::find($mobilId);
+        $mobil = mobil::find($mobilId);
         $mobil->delete();
 
         return response()->json(["result" => "ok"], 200);
@@ -38,10 +56,16 @@ class MobilController extends Controller
 
     public function update(Request $request, $mobilId)
     {
-        $mobil = Mobil::find($mobilId);
-        $mobil->title = $request->title;
-        $mobil->body = $request->body;
-        $mobil->slug = $request->slug;
+        $validated = $request->validate([
+            'mesin' => 'required',
+            'kapasitas_penumpang' => 'required',
+            'tipe' => 'required',
+        ]);
+
+        $mobil = mobil::find($mobilId);
+        $mobil->mesin = $request->mesin;
+        $mobil->kapasitas_penumpang = $request->kapasitas_penumpang;
+        $mobil->tipe = $request->tipe;
         $mobil->save();
 
         return response()->json(["result" => "ok"], 201);

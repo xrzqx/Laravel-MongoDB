@@ -5,32 +5,50 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Motor;
 
-class MotorController extends Controller
+class motorController extends Controller
 {
-    //
+    public function index()
+    {
+        $motor = Motor::all();
+        return response()->json(["status" => "ok", "data" => $motor], 201);
+    }
+
     public function show($slug)
     {
-        return view('motor', [
-            'motor' => Motor::where('slug', '=', $slug)->first()
-        ]);
     }
 
     public function store(Request $request)
     {
-        $motor = new Motor();
+        $validated = $request->validate([
+            'mesin' => 'required',
+            'tipe_suspensi' => 'required',
+            'tipe_transmisi' => 'required',
+            'tahun_keluaran' => 'required',
+            'warna' => 'required',
+            'harga' => 'required',
+        ]);
 
-        $motor->title = $request->title;
-        $motor->body = $request->body;
-        $motor->slug = $request->slug;
-
-        $motor->save();
+        $motor = Motor::create(
+            [
+                "mesin" => $request->mesin,
+                "tipe_suspensi" => $request->tipe_suspensi,
+                "tipe_transmisi" => $request->tipe_transmisi
+            ]
+        );
+        $kendaraan = $motor->kendaraan()->create(
+            [
+                "tahun_keluaran" => $request->tahun_keluaran,
+                "warna" => $request->warna,
+                "harga" => $request->harga
+            ]
+        );
 
         return response()->json(["result" => "ok"], 201);
     }
 
     public function destroy($motorId)
     {
-        $motor = Motor::find($motorId);
+        $motor = motor::find($motorId);
         $motor->delete();
 
         return response()->json(["result" => "ok"], 200);
@@ -38,10 +56,16 @@ class MotorController extends Controller
 
     public function update(Request $request, $motorId)
     {
-        $motor = Motor::find($motorId);
-        $motor->title = $request->title;
-        $motor->body = $request->body;
-        $motor->slug = $request->slug;
+        $validated = $request->validate([
+            'mesin' => 'required',
+            'tipe_suspensi' => 'required',
+            'tipe_transmisi' => 'required',
+        ]);
+
+        $motor = motor::find($motorId);
+        $motor->mesin = $request->mesin;
+        $motor->tipe_suspensi = $request->tipe_suspensi;
+        $motor->tipe_transmisi = $request->tipe_transmisi;
         $motor->save();
 
         return response()->json(["result" => "ok"], 201);

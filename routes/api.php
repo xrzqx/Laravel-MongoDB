@@ -23,7 +23,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::resource('kendaraan', KendaraanController::class)->only([
-    'destroy', 'show', 'store', 'update'
+    'destroy', 'show', 'update', 'index'
+ ]);
+Route::resource('motor', MotorController::class)->only([
+    'destroy', 'show', 'store', 'update', 'index'
+ ]);
+Route::resource('mobil', MotorController::class)->only([
+    'destroy', 'show', 'store', 'update', 'index'
  ]);
 
 // Route::get('/posts-list', [PostController::class, 'list']);
