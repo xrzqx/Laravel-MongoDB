@@ -28,7 +28,7 @@ Route::resource('kendaraan', KendaraanController::class)->only([
 Route::resource('motor', MotorController::class)->only([
     'destroy', 'show', 'store', 'update', 'index'
  ]);
-Route::resource('mobil', MotorController::class)->only([
+Route::resource('mobil', MobilController::class)->only([
     'destroy', 'show', 'store', 'update', 'index'
  ]);
 
