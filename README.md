@@ -21,8 +21,39 @@ Step 4: Configuring Your Laravel Project to Use MongoDB
 ```
 'connections' => [
   'mongodb' => [
-        'driver' => 'mongodb',
-        'dsn' => env('DB_URI', 'mongodb+srv://username:password@<atlas-cluster-uri>/myappdb?retryWrites=true&w=majority'),
-        'database' => 'myappdb',
-],
+            'driver' => 'mongodb',
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', 27017),
+            'database' => env('DB_DATABASE', 'laravel'),
+            'username' => env('DB_USERNAME', ''),
+            'password' => env('DB_PASSWORD', ''),
+            'options' => [
+            ],
+        ],
+```
+- Setup your .env in your Laravel project as shown in this example:
+```
+DB_CONNECTION=mongodb
+DB_HOST=127.0.0.1
+DB_PORT=27017
+DB_DATABASE=laravel
+DB_USERNAME=
+DB_PASSWORD=
+```
+Step 5: Installing and set up JWT
+- To create the User table, use the following command:
+```
+php artisan migrate
+```
+- Now that our database is set up, we’ll install and set up the Laravel JWT authentication package:
+```
+ composer require php-open-source-saver/jwt-auth
+```
+- Copy the JWT configuration file from the vendor to confi/jwt.php with this command:
+```
+php artisan vendor:publish --provider="PHPOpenSourceSaver\JWTAuth\Providers\LaravelServiceProvider"
+```
+- we need to generate a secret key to handle the token encryption. To do so, run this command:
+```
+php artisan jwt:secret
 ```
