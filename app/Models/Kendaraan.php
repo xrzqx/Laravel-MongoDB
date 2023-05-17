@@ -9,4 +9,14 @@ use Jenssegers\Mongodb\Eloquent\Model;
 class Kendaraan extends Model
 {
     protected $collection = 'Kendaraan';
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'tahun_keluaran',
+        'warna',
+        'harga',
+    ];
 }

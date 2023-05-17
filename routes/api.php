@@ -22,13 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('kens', KendaraanController::class)->only([
-    'destroy', 'show', 'store', 'update'
- ]);
-Route::resource('mobils', MobilController::class)->only([
-    'destroy', 'show', 'store', 'update'
- ]);
-Route::resource('motors', MotorController::class)->only([
+Route::resource('kendaraan', KendaraanController::class)->only([
     'destroy', 'show', 'store', 'update'
  ]);
 

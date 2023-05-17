@@ -13,8 +13,11 @@ class CreateKendaraansTable extends Migration
      */
     public function up()
     {
-        Schema::create('kendaraans', function (Blueprint $table) {
+        Schema::create('Kendaraan', function (Blueprint $table) {
             $table->id();
+            $table->string('tahun_keluar');
+            $table->string('warna');
+            $table->string('harga');
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ class CreateKendaraansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kendaraans');
+        Schema::dropIfExists('Kendaraan');
     }
 }
